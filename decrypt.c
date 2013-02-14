@@ -56,6 +56,80 @@ void calcFreq(float found[]){
 	}
 }
 
+
+void rotate(float given[]){
+
+        int i;
+//printf("Rotate Before\n--------\n");
+ //for(i=0; i < ALPH; i++)
+   //         printf("%d: %f\n",i, given[i]);
+
+        float tmp, letterZ = given[ALPH-1];
+        for(i = ALPH-1; i >= 0; i--){
+                tmp = given[i-1];
+                given[i] = tmp;
+
+        }
+        given[0] = letterZ;
+//printf("Rotate after\n-----------\n");
+  //     for(i=0; i < ALPH; i++)
+    //        printf("%d: %f\n", i,given[i]);
+}
+
+float sqr(float diff){
+        return diff * diff;
+}
+
+	
+int findKey(float given[], float found[]){
+	
+	int i,j, key = 0, firstTime = 1;
+	float sum = 0, lowSum;
+
+	for(j = 0; j < ALPH; j++){
+		sum = 0;	
+		for(i = 0; i < ALPH; i++)
+			sum += sqr(found[i] - given[i]);
+
+		if(firstTime){
+			lowSum = sum;
+			firstTime = 0;
+		}
+	
+		if(sum < lowSum){
+			lowSum = sum;
+			key = j;
+		}
+
+		rotate(given);
+	}
+
+	return key;
+}
+
+void decrypt(int key){
+
+	FILE *ifp, *ofp;
+	ifp = fopen("data.out", "r");
+	ofp = fopen("d.txt", "w");
+
+	if ( key < 0 )
+        	key = key + 26;
+
+	char tmp = fgetc(ifp);
+	while(tmp != EOF){
+
+	        if ( isupper(tmp) )
+        	        fprintf(ofp, "%c", (tmp - 'A' - key) % 26 + 'A');
+		else  if ( islower(tmp) )
+                	fprintf(ofp, "%c", (tmp - 'a' - key) % 26 + 'a');
+		else
+			fprintf(ofp, "%c", tmp);
+
+		tmp = fgetc(ifp);
+	}
+}
+
 int main(void){
 
 	float given[ALPH], found[ALPH];
@@ -63,11 +137,8 @@ int main(void){
 
 	readFreq(given);
 	calcFreq(found);
-	
-	int i;
-	for(i = 0; i < ALPH; i++){
-		printf("%d: %f\n", i, found[i]);
-	}
+	printf("Key: %d\n", findKey(given, found));
+	decrypt(findKey(given,found));
 
 	return 0;
 }

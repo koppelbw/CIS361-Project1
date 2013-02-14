@@ -1,0 +1,15 @@
+Dre] looks at me, I fake a smile so he ]on't see
+That I ]ant and I'm needing e\er_thing that ]e should be
+I'll bet she's beautiful, that girl he talks about,
+And she's got e\er_thing that I ha\e to li\e ]ithout.
+
+Test
+-----
+
+A B C D E F G H I J K L M N O P Q R S T U < = > ? @
+
+a b c d e f g h i j k l m n o p q r s t u \ ] ^ _ `
+
+1234567890
+
+!@#$%^&*()_+-={}[]|\?/<,>.~`~`
